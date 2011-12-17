@@ -18,6 +18,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jibble.pircbot.Colors;
 
 import com.turt2live.mea.Math.Expression;
 
@@ -82,6 +83,28 @@ public class MultiFunction {
 		message = message.replaceAll(colorSeperator + "E", "");
 		message = message.replaceAll(colorSeperator + "F", "");
 		message = ChatColor.stripColor(message);
+		message = Colors.removeFormattingAndColors(message);
+		return message;
+	}
+
+	public static String convertToIRCColors(String message, JavaPlugin plugin, boolean isInBukkitFormat) {
+		if (!isInBukkitFormat) message = MultiFunction.addColor(message, plugin);
+		message = message.replaceAll(ChatColor.getByCode(0x0).toString(), Colors.BLACK);
+		message = message.replaceAll(ChatColor.getByCode(0x1).toString(), Colors.DARK_BLUE);
+		message = message.replaceAll(ChatColor.getByCode(0x2).toString(), Colors.DARK_GREEN);
+		message = message.replaceAll(ChatColor.getByCode(0x3).toString(), Colors.TEAL);
+		message = message.replaceAll(ChatColor.getByCode(0x4).toString(), Colors.RED);
+		message = message.replaceAll(ChatColor.getByCode(0x5).toString(), Colors.DARK_BLUE);
+		message = message.replaceAll(ChatColor.getByCode(0x6).toString(), Colors.OLIVE);
+		message = message.replaceAll(ChatColor.getByCode(0x7).toString(), Colors.DARK_GRAY);
+		message = message.replaceAll(ChatColor.getByCode(0x8).toString(), Colors.DARK_GRAY);
+		message = message.replaceAll(ChatColor.getByCode(0x9).toString(), Colors.BLUE);
+		message = message.replaceAll(ChatColor.getByCode(0xA).toString(), Colors.GREEN);
+		message = message.replaceAll(ChatColor.getByCode(0xB).toString(), Colors.CYAN);
+		message = message.replaceAll(ChatColor.getByCode(0xC).toString(), Colors.RED);
+		message = message.replaceAll(ChatColor.getByCode(0xD).toString(), Colors.MAGENTA);
+		message = message.replaceAll(ChatColor.getByCode(0xE).toString(), Colors.YELLOW);
+		message = message.replaceAll(ChatColor.getByCode(0xF).toString(), Colors.WHITE);
 		return message;
 	}
 

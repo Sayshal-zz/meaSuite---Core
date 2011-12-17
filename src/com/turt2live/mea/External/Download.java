@@ -16,13 +16,12 @@ import java.net.URLConnection;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.turt2live.mea.Logger.MeaLogger;
+import com.turt2live.mea.API.MeaAPI;
 
 public class Download {
 	public static double	downloadSize		= 0;
 	public static double	downloadAmount		= 0;
 	public static int		lastDownloadPercent	= 0;
-	private File			log					= new File(System.getProperty("user.dir") + "/plugins/meaSuite/meaLogger/data_transfer.txt");
 
 	public static String getDownloadStatus() {
 		double pert = (downloadAmount / downloadSize) * 100;
@@ -74,7 +73,8 @@ public class Download {
 					String file = parts[parts.length - 2];
 					if (println) {
 						System.out.println(file + " :: " + getDownloadStatus());
-						MeaLogger.log(file + " :: " + getDownloadStatus(), this.log, plugin);
+						MeaAPI api = new MeaAPI();
+						api.log(file + " :: " + getDownloadStatus(), new File(plugin.getDataFolder(), "data_transfer_log.txt"));
 					}
 					lastDownloadPercent = getDownloadPercent();
 				}

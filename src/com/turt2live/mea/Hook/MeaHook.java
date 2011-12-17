@@ -69,32 +69,37 @@ public class MeaHook {
 	}
 
 	public void onJoin(String player, String source) {
-		
+
 	}
-	
+
 	public void onLeave(String player, String source, boolean kicked, String kickmessage) {
-		
+
 	}
 	public void onMessage(String player, String source, String message) {
-		
+
 	}
-	
+
 	public void onCommand(String player, String command) {
-		
+
 	}
 
 	public void send(String message, String source) {
-		
+
 	}
 
 	public void send(String message, String source, boolean meaOnlyMode) {
-		
+
 	}
-	
+
+	public String addColor(String message) {
+		if (mChatSuite) mChatSuite_hook.addColor(message);
+		return message;
+	}
+
 	public String getNode(String node) {
 		return this.plugin.getConfig().getString("meaHook." + node);
 	}
-	
+
 	/** BELOW HERE IS JUST CONTROL STUFF FOR WHEN I SCREW UP **/
 
 	public void onCommand(Player player, String command) {

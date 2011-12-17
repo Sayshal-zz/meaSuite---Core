@@ -29,4 +29,8 @@ public class mChatSuiteHook {
 		if (matches.size() > 0) return this.mChat.addColour(this.mChat.getPrefix(matches.get(0)));
 		return "Dunno";
 	}
+
+	public String addColor(String message) {
+		return mChat.addColour(message);
+	}
 }

@@ -48,9 +48,9 @@ public class MeaLogger {
 
 		this.meaSuite = "meaSuite is recorded as \"" + this.plugin.getDescription().getFullName() + "\" build number \"" + this.loader.version + "\".";
 
-		this.log = new File(this.plugin.getDataFolder() + "/meaLogger/log.txt");
-		this.meaChatLog = new File(this.plugin.getDataFolder() + "/meaChat/log.txt");
-		this.meaExternalLog = new File(this.plugin.getDataFolder() + "/meaLogger/data_transfer.txt");
+		this.log = new File(this.plugin.getDataFolder(), "log.txt");
+		this.meaChatLog = new File(this.plugin.getDataFolder(), "chat_log.txt");
+		this.meaExternalLog = new File(this.plugin.getDataFolder(), "data_transfer_log.txt");
 	}
 
 	public void dump() {
