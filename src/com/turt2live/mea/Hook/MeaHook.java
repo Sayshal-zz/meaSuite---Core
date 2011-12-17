@@ -18,14 +18,12 @@ public class MeaHook {
 	protected boolean			Factions	= false;
 	protected boolean			mcMMO		= false;
 	protected boolean			CommandBook	= false;
-	protected boolean			mChat		= false;
 	protected boolean			mChatSuite	= false;
 
 	// Hooks
 	protected CommandBookHook	CommandBook_hook;
 	protected FactionsHook		Factions_hook;
 	protected mcMMOHook			mcMMO_hook;
-	protected mChatHook			mChat_hook;
 	protected mChatSuiteHook	mChatSuite_hook;
 
 	public MeaHook(JavaPlugin plugin) {
@@ -54,12 +52,7 @@ public class MeaHook {
 		}
 		System.out.println("[meaHook] CommandBook: " + this.CommandBook);
 		MeaLogger.log("[meaHook] CommandBook: " + this.CommandBook, new File(System.getProperty("user.dir") + "/plugins/meaSuite/meaLogger/log.txt"), this.plugin);
-		if (pluginExists("mChat")) {
-			this.mChat_hook = new mChatHook(this);
-			this.mChat = true;
-		}
-		System.out.println("[meaHook] mChat: " + this.mChat);
-		MeaLogger.log("[meaHook] mChat: " + this.mChat, new File(System.getProperty("user.dir") + "/plugins/meaSuite/meaLogger/log.txt"), this.plugin);
+		if (pluginExists("mChat")) System.out.println("[meaHook] mChat is no longer used! Get mChatSuite!");
 		if (pluginExists("mChatSuite")) {
 			this.mChatSuite_hook = new mChatSuiteHook(this);
 			this.mChatSuite = true;
