@@ -1,0 +1,21 @@
+name: meaSuite
+main: com.turt2live.mea.plugin.Loader
+version: 1.0.0
+description: >
+             The plugin that does most things
+author: turt2live
+authors: [Turt2Live, Sayshal]
+website: http://dev.bukkit.org/server-mods/measuite/
+commands:
+  meapw:
+    description: Set mea password
+
+permissions:
+    meaSuite.*:
+        description: all meaSuite commands
+        default: false
+        children:
+            meaSuite.reload: true
+    meaSuite.reload:
+        description: reload command
+        default: false
