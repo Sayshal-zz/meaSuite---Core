@@ -3,6 +3,8 @@ package com.turt2live.mea.API;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -25,16 +27,73 @@ public class MeaAPI {
 
 	private MeaHook		hook;
 	private MeaLogger	log;
+	@SuppressWarnings("unused")
 	private Download	download;
+	@SuppressWarnings("unused")
 	private Unzip		unzip;
 	private MeaSQL		sql;
 	private JavaPlugin	meaSuite;
+	private EconomyHook	economy;
 
 	public MeaAPI() {
 		meaSuite = (JavaPlugin) Bukkit.getServer().getPluginManager().getPlugin("meaSuite");
 		if (meaSuite == null) return;
 		hook = new MeaHook(meaSuite);
 		sql = new MeaSQL(meaSuite);
+		economy = new EconomyHook(meaSuite, this);
+	}
+
+	public void downloadFile(String URL, String path) {
+		try {
+			URL u = new URL(URL);
+			downloadFile(u, path);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+			log(e);
+		}
+	}
+
+	public void downloadFile(URL URL, String path) {
+		try {
+			download = new Download(URL, path, true, meaSuite);
+		} catch (Exception e) {
+			e.printStackTrace();
+			log(e);
+		}
+	}
+
+	public void downloadFile(URL URL, File path) {
+		downloadFile(URL, path.getPath() + File.pathSeparator + path.getName());
+	}
+
+	public void downloadFile(String URL, File path) {
+		try {
+			URL u = new URL(URL);
+			downloadFile(u, path.getPath() + File.pathSeparator + path.getName());
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+			log(e);
+		}
+	}
+
+	public void unzipFile(String path, String to) {
+		unzip = new Unzip(path, to, meaSuite);
+	}
+
+	public void unzipFile(File path, String to) {
+		unzipFile(path.getPath() + File.pathSeparator + path.getName(), to);
+	}
+
+	public void unzipFile(File path, File to) {
+		unzipFile(path.getPath() + File.pathSeparator + path.getName(), to.getPath() + File.pathSeparator + to.getName());
+	}
+
+	public void unzipFile(String path, File to) {
+		unzipFile(path, to.getPath() + File.pathSeparator + to.getName());
+	}
+
+	public String removeColor(String line) {
+		return MultiFunction.removeColor(line, meaSuite);
 	}
 
 	public String addColor(String line, boolean toIRC) {
@@ -109,5 +168,9 @@ public class MeaAPI {
 		DateFormat dateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z");
 		Date date = new Date();
 		return (filemode) ? (dateFormat.format(date)).replaceAll(" ", "-").replaceAll("\\:", "").replaceAll("\\,", "") : dateFormat.format(date);
+	}
+
+	public EconomyHook getEconomy() {
+		return economy;
 	}
 }
