@@ -1,6 +1,6 @@
-package com.turt2live.mea.Math;
+package me.turt2live.meaSuite.Math;
 
-import com.turt2live.mea.Math.Operator.Operands;
+import me.turt2live.meaSuite.Math.Operator.Operands;
 
 /**
  * Represents one or more operation nodes (a group of one or two operands and an operator).

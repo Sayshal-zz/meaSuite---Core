@@ -1,4 +1,4 @@
-package com.turt2live.mea.API;
+package me.turt2live.meaSuite.API;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,12 +16,12 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.turt2live.mea.External.Download;
-import com.turt2live.mea.External.Unzip;
-import com.turt2live.mea.Hook.MeaHook;
-import com.turt2live.mea.Logger.MeaLogger;
-import com.turt2live.mea.SQL.MeaSQL;
-import com.turt2live.mea.plugin.MultiFunction;
+import me.turt2live.meaSuite.External.Download;
+import me.turt2live.meaSuite.External.Unzip;
+import me.turt2live.meaSuite.Hook.MeaHook;
+import me.turt2live.meaSuite.Logger.MeaLogger;
+import me.turt2live.meaSuite.SQL.MeaSQL;
+import me.turt2live.meaSuite.plugin.MultiFunction;
 
 public class MeaAPI {
 
@@ -63,13 +63,13 @@ public class MeaAPI {
 	}
 
 	public void downloadFile(URL URL, File path) {
-		downloadFile(URL, path.getPath() + File.pathSeparator + path.getName());
+		downloadFile(URL, path.getParent() + File.pathSeparator + path.getName());
 	}
 
 	public void downloadFile(String URL, File path) {
 		try {
 			URL u = new URL(URL);
-			downloadFile(u, path.getPath() + File.pathSeparator + path.getName());
+			downloadFile(u, path.getParent() + File.pathSeparator + path.getName());
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 			log(e);
@@ -81,15 +81,15 @@ public class MeaAPI {
 	}
 
 	public void unzipFile(File path, String to) {
-		unzipFile(path.getPath() + File.pathSeparator + path.getName(), to);
+		unzipFile(path.getParent() + File.pathSeparator + path.getName(), to);
 	}
 
 	public void unzipFile(File path, File to) {
-		unzipFile(path.getPath() + File.pathSeparator + path.getName(), to.getPath() + File.pathSeparator + to.getName());
+		unzipFile(path.getParent() + File.pathSeparator + path.getName(), to.getParent() + File.pathSeparator + to.getName());
 	}
 
 	public void unzipFile(String path, File to) {
-		unzipFile(path, to.getPath() + File.pathSeparator + to.getName());
+		unzipFile(path, to.getParent() + File.pathSeparator + to.getName());
 	}
 
 	public String removeColor(String line) {

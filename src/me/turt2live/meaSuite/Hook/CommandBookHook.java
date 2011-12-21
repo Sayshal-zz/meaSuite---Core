@@ -1,4 +1,4 @@
-package com.turt2live.mea.Hook;
+package me.turt2live.meaSuite.Hook;
 
 public class CommandBookHook {
 

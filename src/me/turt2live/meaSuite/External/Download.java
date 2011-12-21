@@ -1,4 +1,4 @@
-package com.turt2live.mea.External;
+package me.turt2live.meaSuite.External;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -13,7 +13,7 @@ import java.net.URLConnection;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.turt2live.mea.API.MeaAPI;
+import me.turt2live.meaSuite.API.MeaAPI;
 
 public class Download {
 	public static double	downloadSize		= 0;

@@ -1,4 +1,4 @@
-package com.turt2live.mea.Math;
+package me.turt2live.meaSuite.Math;
 
 /**
  * Defines an mathematical operator.

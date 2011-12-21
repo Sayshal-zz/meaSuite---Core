@@ -1,4 +1,4 @@
-package com.turt2live.mea.External;
+package me.turt2live.meaSuite.External;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -12,7 +12,7 @@ import java.util.zip.ZipFile;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.turt2live.mea.Logger.MeaLogger;
+import me.turt2live.meaSuite.Logger.MeaLogger;
 
 public class Unzip {
 

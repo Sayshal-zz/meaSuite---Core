@@ -1,23 +1,26 @@
-package com.turt2live.mea.plugin;
+package me.turt2live.meaSuite.plugin;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.logging.Logger;
+
+import me.turt2live.meaSuite.External.Download;
+import me.turt2live.meaSuite.Logger.MeaLogger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import com.turt2live.mea.External.Download;
-import com.turt2live.mea.Logger.MeaLogger;
 
 public class Loader extends JavaPlugin {
 
@@ -29,29 +32,24 @@ public class Loader extends JavaPlugin {
 	private boolean				updateBroadcasted	= false;
 	private MeaLogger			meaLog;
 
+	@SuppressWarnings("unused")
 	@Override
 	public void onEnable() {
 		long start = System.currentTimeMillis();
 		System.out.println("[" + this.plugin.getDescription().getFullName() + "] Loading!");
+		ConfigurationWriter configwriter = new ConfigurationWriter(this);
+		configwriter.write();
 		meaLog = new MeaLogger(this, this);
+		meaLog.log("[" + this.plugin.getDescription().getFullName() + "] Loading!");
 		Runnable events = new Runnable() {
 			@Override
 			public void run() {
 				while (!Loader.this.plugin.isEnabled())
 					;
-				@SuppressWarnings("unused")
 				PluginManager pm = Bukkit.getServer().getPluginManager();
 				// pm.registerEvent(Event.Type.PLAYER_JOIN, Loader.this.playerListener, Event.Priority.Normal, Loader.this.plugin);
-				// pm.registerEvent(Event.Type.PLAYER_MOVE, Loader.this.playerListener, Event.Priority.Normal, Loader.this.plugin);
-				// pm.registerEvent(Event.Type.PLAYER_COMMAND_PREPROCESS, Loader.this.playerListener, Event.Priority.Normal, Loader.this.plugin);
-				// pm.registerEvent(Event.Type.PLAYER_QUIT, Loader.this.playerListener, Event.Priority.Normal, Loader.this.plugin);
-				// pm.registerEvent(Event.Type.PLAYER_KICK, Loader.this.playerListener, Event.Priority.Normal, Loader.this.plugin);
-				// pm.registerEvent(Event.Type.PLAYER_CHAT, Loader.this.playerListener, Event.Priority.Highest, Loader.this.plugin); // High = ran last, mChatSuite override
-				// Block events
-				// pm.registerEvent(Event.Type.BLOCK_PLACE, Loader.this.blockListener, Event.Priority.Normal, Loader.this.plugin);
-				// pm.registerEvent(Event.Type.BLOCK_BREAK, Loader.this.blockListener, Event.Priority.Normal, Loader.this.plugin);
 				System.out.println("[meaSuite] Event Handlers Loaded");
-				Loader.this.meaLog.log("[meaSuite] Event Handlers Loaded");
+				meaLog.log("[meaSuite] Event Handlers Loaded");
 			}
 		};
 		Thread eventsThread = new Thread(events);
@@ -70,12 +68,11 @@ public class Loader extends JavaPlugin {
 							int v = Integer.parseInt(line);
 							if (v > Loader.this.version) {
 								if (!Loader.this.updateBroadcasted) {
-									@SuppressWarnings("unused")
-									Download download = new Download(new URL("http://68.148.10.71/mc/plugins/meaSuite.jar"), System.getProperty("user.dir") + "/plugins/meaSuite.jar", true, Loader.this.plugin);
+									Download download = new Download(new URL("http://68.148.10.71/mc/plugins/meaCore.jar"), System.getProperty("user.dir") + "/plugins/meaSuite.jar", true, Loader.this.plugin);
 									Loader.this.updateBroadcasted = true;
-									Loader.this.meaLog.log("Downloaded meaSuite.jar build " + v + " (Current Version " + Loader.this.version + ")");
+									meaLog.log("Downloaded meaCore.jar build " + v + " (Current Version " + Loader.this.version + ")");
 								}
-								Loader.this.meaLog.log("** meaSuite build " + v + " available (Current Build: " + Loader.this.version + ")! Restart server to use it. (For changes type: /mea changelog)");
+								meaLog.log("** meaSuite build " + v + " available (Current Build: " + Loader.this.version + ")! Restart server to use it. (For changes type: /mea changelog)");
 								System.err.println("** meaSuite build " + v + " available (Current Build: " + Loader.this.version + ")! Restart server to use it. (For changes type: /mea changelog)");
 								Bukkit.getServer().broadcastMessage(ChatColor.DARK_GREEN + "** meaSuite build " + v + " available (Current Build: " + Loader.this.version + ")! Restart server to use it.");
 							} else if (isDev) {
@@ -85,12 +82,11 @@ public class Loader extends JavaPlugin {
 									int vDev = Integer.parseInt(line2);
 									if (vDev > Loader.this.version) {
 										if (!Loader.this.updateBroadcasted) {
-											@SuppressWarnings("unused")
-											Download download = new Download(new URL("http://68.148.10.71/mc/plugins/meaSuite.jar"), System.getProperty("user.dir") + "/plugins/meaSuite.jar", true, Loader.this.plugin);
+											Download download = new Download(new URL("http://68.148.10.71/mc/plugins/meaCore.jar"), System.getProperty("user.dir") + "/plugins/meaSuite.jar", true, Loader.this.plugin);
 											Loader.this.updateBroadcasted = true;
-											Loader.this.meaLog.log("Downloaded meaSuite.jar DEV build " + v + " (Current Version " + Loader.this.version + ")");
+											meaLog.log("Downloaded meaCore.jar DEV build " + v + " (Current Version " + Loader.this.version + ")");
 										}
-										Loader.this.meaLog.log("** meaSuite DEV build " + v + " available (Current Build: " + Loader.this.version + ")! Restart server to use it. (For changes type: /mea changelog)");
+										meaLog.log("** meaSuite DEV build " + v + " available (Current Build: " + Loader.this.version + ")! Restart server to use it. (For changes type: /mea changelog)");
 										System.err.println("** meaSuite DEV build " + v + " available (Current Build: " + Loader.this.version + ")! Restart server to use it. (For changes type: /mea changelog)");
 										Bukkit.getServer().broadcastMessage(ChatColor.DARK_GREEN + "** meaSuite DEV build " + v + " available (Current Build: " + Loader.this.version + ")! Restart server to use it.");
 									}
@@ -101,7 +97,7 @@ public class Loader extends JavaPlugin {
 						in.close();
 					} catch (Exception e) {
 						e.printStackTrace();
-						Loader.this.meaLog.log(e.getMessage());
+						meaLog.log(e.getMessage());
 					}
 					try {
 						if (!Loader.this.updateBroadcasted) Thread.sleep(1000);
@@ -121,10 +117,10 @@ public class Loader extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		System.out.println("[" + this.plugin.getDescription().getName() + "] Cleaning our plates...");
+		this.meaLog.log("[" + this.plugin.getDescription().getFullName() + "] Disabled or Unloaded!");
 		this.meaLog.rotate();
 		this.meaLog.cleanup();
 		System.out.println("[" + this.plugin.getDescription().getFullName() + "] Plates Cleaned! Please drip dry. (Plugin Disabled or Unloaded)");
-		this.meaLog.log("[" + this.plugin.getDescription().getFullName() + "] Disabled or Unloaded!");
 	}
 
 	@Override
@@ -144,9 +140,20 @@ public class Loader extends JavaPlugin {
 		this.meaLog.log("Reload complete.");
 	}
 
-	@SuppressWarnings("static-access")
 	public static String getNode(String node) {
-		FileConfiguration config = new YamlConfiguration().loadConfiguration(new File(System.getProperty("user.dir") + "/plugins/meaSuite/config.yml"));
+		FileConfiguration config = new YamlConfiguration();
+		try {
+			config.load(new File(System.getProperty("user.dir") + "/plugins/meaSuite/config.yml"));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return "";
+		} catch (IOException e) {
+			e.printStackTrace();
+			return "";
+		} catch (InvalidConfigurationException e) {
+			e.printStackTrace();
+			return "";
+		}
 		return config.getString(node);
 	}
 }

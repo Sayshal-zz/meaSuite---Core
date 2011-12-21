@@ -1,4 +1,4 @@
-package com.turt2live.mea.plugin;
+package me.turt2live.meaSuite.plugin;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -17,7 +17,7 @@ import org.bukkit.entity.Sheep;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jibble.pircbot.Colors;
 
-import com.turt2live.mea.Math.Expression;
+import me.turt2live.meaSuite.Math.Expression;
 
 public class MultiFunction {
 

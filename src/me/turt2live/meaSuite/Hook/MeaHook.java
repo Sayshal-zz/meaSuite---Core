@@ -1,4 +1,4 @@
-package com.turt2live.mea.Hook;
+package me.turt2live.meaSuite.Hook;
 
 import java.io.File;
 
@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.turt2live.mea.Logger.MeaLogger;
+import me.turt2live.meaSuite.Logger.MeaLogger;
 
 public class MeaHook {
 
@@ -32,35 +32,35 @@ public class MeaHook {
 
 	public void startup() {
 		System.out.println("[meaHook] Loading...");
-		MeaLogger.log("[meaHook] Loading...", new File(System.getProperty("user.dir") + "/plugins/meaSuite/meaLogger/log.txt"), this.plugin);
+		MeaLogger.log("[meaHook] Loading...", new File(System.getProperty("user.dir") + "/plugins/meaSuite/log.txt"), this.plugin);
 		// Note : Sayshal outsmarted me here >.>
 		if (pluginExists("mcMMO")) {
 			this.mcMMO_hook = new mcMMOHook(this);
 			this.mcMMO = true;
 		}
 		System.out.println("[meaHook] mcMMO: " + this.mcMMO);
-		MeaLogger.log("[meaHook] mcMMO: " + this.mcMMO, new File(System.getProperty("user.dir") + "/plugins/meaSuite/meaLogger/log.txt"), this.plugin);
+		MeaLogger.log("[meaHook] mcMMO: " + this.mcMMO, new File(System.getProperty("user.dir") + "/plugins/meaSuite/log.txt"), this.plugin);
 		if (pluginExists("Factions")) {
 			this.Factions_hook = new FactionsHook(this);
 			this.Factions = true;
 		}
 		System.out.println("[meaHook] Factions: " + this.Factions);
-		MeaLogger.log("[meaHook] Factions: " + this.Factions, new File(System.getProperty("user.dir") + "/plugins/meaSuite/meaLogger/log.txt"), this.plugin);
+		MeaLogger.log("[meaHook] Factions: " + this.Factions, new File(System.getProperty("user.dir") + "/plugins/meaSuite/log.txt"), this.plugin);
 		if (pluginExists("CommandBook")) {
 			this.CommandBook_hook = new CommandBookHook(this);
 			this.CommandBook = true;
 		}
 		System.out.println("[meaHook] CommandBook: " + this.CommandBook);
-		MeaLogger.log("[meaHook] CommandBook: " + this.CommandBook, new File(System.getProperty("user.dir") + "/plugins/meaSuite/meaLogger/log.txt"), this.plugin);
+		MeaLogger.log("[meaHook] CommandBook: " + this.CommandBook, new File(System.getProperty("user.dir") + "/plugins/meaSuite/log.txt"), this.plugin);
 		if (pluginExists("mChat")) System.out.println("[meaHook] mChat is no longer used! Get mChatSuite!");
 		if (pluginExists("mChatSuite")) {
 			this.mChatSuite_hook = new mChatSuiteHook(this);
 			this.mChatSuite = true;
 		}
 		System.out.println("[meaHook] mChatSuite: " + this.mChatSuite);
-		MeaLogger.log("[meaHook] mChatSuite: " + this.mChatSuite, new File(System.getProperty("user.dir") + "/plugins/meaSuite/meaLogger/log.txt"), this.plugin);
+		MeaLogger.log("[meaHook] mChatSuite: " + this.mChatSuite, new File(System.getProperty("user.dir") + "/plugins/meaSuite/log.txt"), this.plugin);
 		System.out.println("[meaHook] Loaded!");
-		MeaLogger.log("[meaHook] Loaded!", new File(System.getProperty("user.dir") + "/plugins/meaSuite/meaLogger/log.txt"), this.plugin);
+		MeaLogger.log("[meaHook] Loaded!", new File(System.getProperty("user.dir") + "/plugins/meaSuite/log.txt"), this.plugin);
 	}
 
 	private boolean pluginExists(String name) {

@@ -1,4 +1,4 @@
-package com.turt2live.mea.plugin;
+package me.turt2live.meaSuite.plugin;
 
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockListener;

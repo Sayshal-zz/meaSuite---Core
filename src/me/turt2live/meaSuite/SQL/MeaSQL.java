@@ -1,7 +1,7 @@
 /*
  
  */
-package com.turt2live.mea.SQL;
+package me.turt2live.meaSuite.SQL;
 
 import java.io.BufferedReader;
 import java.io.File;

@@ -1,4 +1,4 @@
-package com.turt2live.mea.API;
+package me.turt2live.meaSuite.API;
 
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;

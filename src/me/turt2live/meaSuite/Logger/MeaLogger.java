@@ -1,4 +1,4 @@
-package com.turt2live.mea.Logger;
+package me.turt2live.meaSuite.Logger;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -11,14 +11,14 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import me.turt2live.meaSuite.plugin.Loader;
+import me.turt2live.meaSuite.plugin.MultiFunction;
+
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import com.turt2live.mea.plugin.Loader;
-import com.turt2live.mea.plugin.MultiFunction;
 
 public class MeaLogger {
 
@@ -40,9 +40,10 @@ public class MeaLogger {
 	public MeaLogger(JavaPlugin plugin, Loader loader) {
 		this.plugin = plugin;
 		this.loader = loader;
+		startup();
 	}
 
-	public void startup() {
+	private void startup() {
 		this.meaConfiguration = new File(this.plugin.getDataFolder() + "/config.yml");
 		this.configuration = this.plugin.getConfig();
 
@@ -51,6 +52,13 @@ public class MeaLogger {
 		this.log = new File(this.plugin.getDataFolder(), "log.txt");
 		this.meaChatLog = new File(this.plugin.getDataFolder(), "chat_log.txt");
 		this.meaExternalLog = new File(this.plugin.getDataFolder(), "data_transfer_log.txt");
+
+		File f = new File(log.getParent());
+		f.mkdirs();
+		f = new File(meaChatLog.getParent());
+		f.mkdirs();
+		f = new File(meaExternalLog.getParent());
+		f.mkdirs();
 	}
 
 	public void dump() {
@@ -65,7 +73,7 @@ public class MeaLogger {
 			out.close();
 		} catch (Exception e) {
 			e.printStackTrace();
-			//log(e.getMessage(), new File(System.getProperty("user.dir") + "/plugins/meaSuite/meaLogger/log.txt"), plugin);
+			//log(e.getMessage(), new File(System.getProperty("user.dir") + "/plugins/meaSuite/log.txt"), plugin);
 		}
 	}
 
@@ -77,7 +85,7 @@ public class MeaLogger {
 			out.close();
 		} catch (Exception e) {
 			e.printStackTrace();
-			//log(e.getMessage(), new File(System.getProperty("user.dir") + "/plugins/meaSuite/meaLogger/log.txt"), plugin);
+			//log(e.getMessage(), new File(System.getProperty("user.dir") + "/plugins/meaSuite/log.txt"), plugin);
 		}
 	}
 
@@ -96,7 +104,11 @@ public class MeaLogger {
 	public static void copyFileTo(File original, File destination, boolean append, boolean wipeOriginal, JavaPlugin plugin) {
 		try {
 			// System.out.println(destination.getAbsolutePath()+"/"+destination.getName());
-			if (!destination.exists()) destination.createNewFile();
+			if (!destination.exists()) {
+				File d = new File(destination.getParent());
+				d.mkdirs();
+				destination.createNewFile();
+			}
 			BufferedReader in = new BufferedReader(new FileReader(original));
 			BufferedWriter out = new BufferedWriter(new FileWriter(destination, append));
 			String line;
@@ -109,7 +121,7 @@ public class MeaLogger {
 			out.close();
 		} catch (Exception e) {
 			e.printStackTrace();
-			log(e.getMessage(), new File(System.getProperty("user.dir") + "/plugins/meaSuite/meaLogger/log.txt"), plugin);
+			log(e.getMessage(), new File(System.getProperty("user.dir") + "/plugins/meaSuite/log.txt"), plugin);
 		}
 	}
 
@@ -133,15 +145,15 @@ public class MeaLogger {
 				else return false;
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
-				log(e.getMessage(), new File(System.getProperty("user.dir") + "/plugins/meaSuite/meaLogger/log.txt"), this.plugin);
+				log(e.getMessage(), new File(System.getProperty("user.dir") + "/plugins/meaSuite/log.txt"), this.plugin);
 				return false;
 			} catch (IOException e) {
 				e.printStackTrace();
-				log(e.getMessage(), new File(System.getProperty("user.dir") + "/plugins/meaSuite/meaLogger/log.txt"), this.plugin);
+				log(e.getMessage(), new File(System.getProperty("user.dir") + "/plugins/meaSuite/log.txt"), this.plugin);
 				return false;
 			} catch (InvalidConfigurationException e) {
 				e.printStackTrace();
-				log(e.getMessage(), new File(System.getProperty("user.dir") + "/plugins/meaSuite/meaLogger/log.txt"), this.plugin);
+				log(e.getMessage(), new File(System.getProperty("user.dir") + "/plugins/meaSuite/log.txt"), this.plugin);
 				return false;
 			}
 		}
@@ -164,13 +176,13 @@ public class MeaLogger {
 			timeLeft = timeLeft.concat(seconds + "s");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-			log(e.getMessage(), new File(System.getProperty("user.dir") + "/plugins/meaSuite/meaLogger/log.txt"), this.plugin);
+			log(e.getMessage(), new File(System.getProperty("user.dir") + "/plugins/meaSuite/log.txt"), this.plugin);
 		} catch (IOException e) {
 			e.printStackTrace();
-			log(e.getMessage(), new File(System.getProperty("user.dir") + "/plugins/meaSuite/meaLogger/log.txt"), this.plugin);
+			log(e.getMessage(), new File(System.getProperty("user.dir") + "/plugins/meaSuite/log.txt"), this.plugin);
 		} catch (InvalidConfigurationException e) {
 			e.printStackTrace();
-			log(e.getMessage(), new File(System.getProperty("user.dir") + "/plugins/meaSuite/meaLogger/log.txt"), this.plugin);
+			log(e.getMessage(), new File(System.getProperty("user.dir") + "/plugins/meaSuite/log.txt"), this.plugin);
 		}
 		return timeLeft;
 	}
