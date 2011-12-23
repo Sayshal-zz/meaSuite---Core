@@ -8,8 +8,10 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.logging.Logger;
 
+import me.turt2live.meaSuite.API.MeaAPI;
 import me.turt2live.meaSuite.External.Download;
 import me.turt2live.meaSuite.Logger.MeaLogger;
+import me.turt2live.meaSuite.statistics.UsageStatistics;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -19,6 +21,7 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -31,6 +34,9 @@ public class Loader extends JavaPlugin {
 	public int					version				= 529;
 	private boolean				updateBroadcasted	= false;
 	private MeaLogger			meaLog;
+	private UsageStatistics		stats;
+
+	public MeaAPI				api;
 
 	@SuppressWarnings("unused")
 	@Override
@@ -41,13 +47,26 @@ public class Loader extends JavaPlugin {
 		configwriter.write();
 		meaLog = new MeaLogger(this, this);
 		meaLog.log("[" + this.plugin.getDescription().getFullName() + "] Loading!");
+		api = new MeaAPI();
+		stats = new UsageStatistics(this, this);
+		meaLog.log("Flushing Usage Statistics...");
+		stats.flush();
+		meaLog.log("Usage Statistics Flushed!");
+		stats.start();
 		Runnable events = new Runnable() {
 			@Override
 			public void run() {
-				while (!Loader.this.plugin.isEnabled())
+				while (!plugin.isEnabled())
 					;
+				playerListener = new ServerPlayerListener(plugin, stats);
 				PluginManager pm = Bukkit.getServer().getPluginManager();
-				// pm.registerEvent(Event.Type.PLAYER_JOIN, Loader.this.playerListener, Event.Priority.Normal, Loader.this.plugin);
+				pm.registerEvent(Event.Type.PLAYER_JOIN, Loader.this.playerListener, Event.Priority.Normal, plugin);
+				pm.registerEvent(Event.Type.PLAYER_MOVE, Loader.this.playerListener, Event.Priority.Normal, plugin);
+				pm.registerEvent(Event.Type.PLAYER_COMMAND_PREPROCESS, Loader.this.playerListener, Event.Priority.Normal, plugin);
+				pm.registerEvent(Event.Type.PLAYER_QUIT, Loader.this.playerListener, Event.Priority.Normal, plugin);
+				pm.registerEvent(Event.Type.PLAYER_KICK, Loader.this.playerListener, Event.Priority.Normal, plugin);
+				pm.registerEvent(Event.Type.PLAYER_CHAT, Loader.this.playerListener, Event.Priority.Normal, plugin);
+				pm.registerEvent(Event.Type.PLAYER_PRELOGIN, Loader.this.playerListener, Event.Priority.Normal, plugin);
 				System.out.println("[meaSuite] Event Handlers Loaded");
 				meaLog.log("[meaSuite] Event Handlers Loaded");
 			}
@@ -126,8 +145,22 @@ public class Loader extends JavaPlugin {
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String cmd, String[] args) {
 		try {
-			if (sender instanceof Player) System.out.println();
-			else System.out.println();
+			if (sender instanceof Player) {
+				if (cmd.equalsIgnoreCase("mea") && ((Player) sender).hasPermission("meaSuite.mea")) {
+					if (args.length > 0) {
+						if (args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("rl") && ((Player) sender).hasPermission("meaSuite.reload")) {
+							reloadSelf();
+							((Player) sender).sendMessage(MultiFunction.getPre(this) + " Reloaded.");
+						} else if (!((Player) sender).hasPermission("meaSuite.reload")) ((Player) sender).sendMessage(MultiFunction.getPre(this) + " You can't do that!");
+						else ((Player) sender).sendMessage(MultiFunction.getPre(this) + " Unknown command");
+					} else ((Player) sender).sendMessage(MultiFunction.getPre(this) + "Version " + getDescription().getVersion());
+				} else ((Player) sender).sendMessage(MultiFunction.getPre(this) + " You can't do that!");
+			} else if(cmd.equalsIgnoreCase("mea")) if(args.length>0){
+				if(args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("rl")){
+					reloadSelf();
+					System.out.println("[meaSuite] Reloaded.");
+				} else System.out.println("[meaSuite] Unknown command");
+			} else System.out.println("[meaSuite] Version "+getDescription().getVersion());
 		} catch (Exception e) {
 			e.printStackTrace();
 			this.meaLog.log(e.getMessage());
@@ -135,8 +168,8 @@ public class Loader extends JavaPlugin {
 		return false;
 	}
 
-	@SuppressWarnings("unused")
 	private void reloadSelf() {
+		reloadConfig();
 		this.meaLog.log("Reload complete.");
 	}
 

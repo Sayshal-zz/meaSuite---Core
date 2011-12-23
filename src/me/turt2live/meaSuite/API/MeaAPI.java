@@ -5,23 +5,21 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import me.turt2live.meaSuite.External.Download;
+import me.turt2live.meaSuite.External.Unzip;
+import me.turt2live.meaSuite.Hook.MeaHook;
+import me.turt2live.meaSuite.Logger.MeaLogger;
+import me.turt2live.meaSuite.plugin.MultiFunction;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import me.turt2live.meaSuite.External.Download;
-import me.turt2live.meaSuite.External.Unzip;
-import me.turt2live.meaSuite.Hook.MeaHook;
-import me.turt2live.meaSuite.Logger.MeaLogger;
-import me.turt2live.meaSuite.SQL.MeaSQL;
-import me.turt2live.meaSuite.plugin.MultiFunction;
 
 public class MeaAPI {
 
@@ -31,7 +29,7 @@ public class MeaAPI {
 	private Download	download;
 	@SuppressWarnings("unused")
 	private Unzip		unzip;
-	private MeaSQL		sql;
+	// private MeaSQL sql;
 	private JavaPlugin	meaSuite;
 	private EconomyHook	economy;
 
@@ -39,7 +37,7 @@ public class MeaAPI {
 		meaSuite = (JavaPlugin) Bukkit.getServer().getPluginManager().getPlugin("meaSuite");
 		if (meaSuite == null) return;
 		hook = new MeaHook(meaSuite);
-		sql = new MeaSQL(meaSuite);
+		// sql = new MeaSQL(meaSuite);
 		economy = new EconomyHook(meaSuite, this);
 	}
 
@@ -103,6 +101,13 @@ public class MeaAPI {
 		return line;
 	}
 
+	public File getDataFolder(JavaPlugin module) {
+		File f = new File(meaSuite.getDataFolder() + "/" + module.getDescription().getName() + "/");
+		;
+		f.mkdirs();
+		return f;
+	}
+
 	public FileConfiguration getConfig(JavaPlugin module) {
 		String moduleName = module.getDescription().getName();
 		File file = new File(meaSuite.getDataFolder(), (moduleName + ".yml".replaceAll(" ", "_")));
@@ -136,17 +141,9 @@ public class MeaAPI {
 		meaSuite.reloadConfig();
 	}
 
-	public ResultSet SQLSearchQuery(String query) {
-		return sql.query(query);
-	}
-
-	public void SQLModificationQuery(String query) {
-		sql.query(query);
-	}
-
-	public void SQLFileParse(File SQLFile) {
-		sql.query(SQLFile);
-	}
+	/*
+	 * public ResultSet SQLSearchQuery(String query) { return sql.query(query); } public void SQLModificationQuery(String query) { sql.query(query); } public void SQLFileParse(File SQLFile) { sql.query(SQLFile); }
+	 */
 
 	public void log(Exception e) {
 		StackTraceElement stack[] = e.getStackTrace();

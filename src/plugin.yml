@@ -1,21 +1,31 @@
 name: meaSuite
 main: me.turt2live.meaSuite.plugin.Loader
 version: 1.0.0
-description: >
-             The plugin that does most things
-author: turt2live
+description: The plugin that does most things
+database: true
+author: Turt2Live
 authors: [Turt2Live, Sayshal]
 website: http://dev.bukkit.org/server-mods/measuite/
+softdepend: [mChatSuite, CommandBook, Factions, mcMMO, Spout]
 commands:
-  meapw:
-    description: Set mea password
+  mea:
+    description: See and use various functions of meaSuite-Core
+    permission: meaSuite.mea
+    usage: |
+      /<command> [arguments]
+      Example: /<command> - Show the version number
+      Example: /<command> bug [description] - Send a bug report
 
 permissions:
     meaSuite.*:
         description: all meaSuite commands
-        default: false
+        default: op
         children:
             meaSuite.reload: true
+            meaSuite.mea: true
     meaSuite.reload:
         description: reload command
+        default: false
+    meaSuite.mea:
+        description: use the mea command
         default: false

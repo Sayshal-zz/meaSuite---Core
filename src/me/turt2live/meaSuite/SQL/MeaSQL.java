@@ -1,6 +1,3 @@
-/*
- 
- */
 package me.turt2live.meaSuite.SQL;
 
 import java.io.BufferedReader;
@@ -16,6 +13,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
 
+@Deprecated
 public class MeaSQL {
 
 	private JavaPlugin	plugin;

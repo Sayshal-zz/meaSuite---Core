@@ -129,7 +129,7 @@ public class MeaLogger {
 		File tempDirectory = new File(this.plugin.getDataFolder() + "/temp/");
 		File listing[] = tempDirectory.listFiles();
 		for (File file : listing)
-			file.delete();
+			if (file.isFile()) file.delete();
 	}
 
 	public boolean canDump(Player player) {
