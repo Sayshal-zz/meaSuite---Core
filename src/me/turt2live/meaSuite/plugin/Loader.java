@@ -31,7 +31,7 @@ public class Loader extends JavaPlugin {
 	public final Logger			logger				= Logger.getLogger("Minecraft");
 	public ServerPlayerListener	playerListener;
 	public ServerBlockListener	blockListener;
-	public int					version				= 529;
+	public int					version				= 600;
 	private boolean				updateBroadcasted	= false;
 	private MeaLogger			meaLog;
 	private UsageStatistics		stats;
