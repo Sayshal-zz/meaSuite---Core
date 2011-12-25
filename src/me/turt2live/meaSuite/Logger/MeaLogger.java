@@ -23,6 +23,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class MeaLogger {
 
 	private JavaPlugin		plugin;
+	@SuppressWarnings("unused")
 	private Loader			loader;
 
 	@SuppressWarnings("unused")
@@ -34,8 +35,7 @@ public class MeaLogger {
 	private File			meaChatLog;
 	private File			meaExternalLog;
 
-	@SuppressWarnings("unused")
-	private String			meaSuite;
+	// private String meaSuite;
 
 	public MeaLogger(JavaPlugin plugin, Loader loader) {
 		this.plugin = plugin;
@@ -43,11 +43,16 @@ public class MeaLogger {
 		startup();
 	}
 
+	public MeaLogger(JavaPlugin plugin) {
+		this.plugin = plugin;
+		startup();
+	}
+
 	private void startup() {
 		this.meaConfiguration = new File(this.plugin.getDataFolder() + "/config.yml");
 		this.configuration = this.plugin.getConfig();
 
-		this.meaSuite = "meaSuite is recorded as \"" + this.plugin.getDescription().getFullName() + "\" build number \"" + this.loader.version + "\".";
+		// this.meaSuite = "meaSuite is recorded as \"" + this.plugin.getDescription().getFullName() + "\" build number \"" + this.loader.version + "\".";
 
 		this.log = new File(this.plugin.getDataFolder(), "log.txt");
 		this.meaChatLog = new File(this.plugin.getDataFolder(), "chat_log.txt");

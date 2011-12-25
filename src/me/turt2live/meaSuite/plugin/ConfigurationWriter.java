@@ -25,6 +25,7 @@ public class ConfigurationWriter {
 				this.plugin.getConfig().set("meaSuite.colorVariable", "&");
 				this.plugin.getConfig().set("meaSuite.stats.sendStats", true);
 				this.plugin.getConfig().set("meaSuite.stats.sendConfig", false);
+				// this.plugin.getConfig().set("meaSuite.stats.keepLocal", false);
 				this.plugin.getConfig().set("meaSuite.stats.time", 60);
 				/*
 				 * this.plugin.getConfig().set("meaSuite.SQL.username", "meaCraft"); this.plugin.getConfig().set("meaSuite.SQL.password", "meaCraft"); this.plugin.getConfig().set("meaSuite.SQL.host", "localhost"); this.plugin.getConfig().set("meaSuite.SQL.port", "3306"); this.plugin.getConfig().set("meaSuite.SQL.database", "meaSuite");

@@ -26,6 +26,7 @@ public class ServerPlayerListener extends PlayerListener {
 	@Override
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		stats.recordStat("onLogin", 1);
+		stats.recordStat("avgUsers", 1);
 	}
 
 	@Override
@@ -41,16 +42,17 @@ public class ServerPlayerListener extends PlayerListener {
 	@Override
 	public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
 		stats.recordStat("onCommand", 1);
+		if (event.getMessage().toLowerCase().startsWith("/mea")) stats.recordStat("onMeaCommand", 1);
 	}
 
 	@Override
 	public void onPlayerQuit(PlayerQuitEvent event) {
-		stats.recordStat("onQuit", 1);
+		stats.recordStat("avgUsers", -1);
 	}
 
 	@Override
 	public void onPlayerKick(PlayerKickEvent event) {
-		stats.recordStat("onKick", 1);
+		stats.recordStat("avgUsers", -1);
 	}
 
 	@Override

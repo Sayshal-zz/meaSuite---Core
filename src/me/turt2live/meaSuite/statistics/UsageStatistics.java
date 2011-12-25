@@ -6,12 +6,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.net.Socket;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import me.turt2live.meaSuite.External.Zip;
-import me.turt2live.meaSuite.Logger.MeaLogger;
-import me.turt2live.meaSuite.grapher.Grapher;
 import me.turt2live.meaSuite.plugin.Loader;
 
 import org.bukkit.plugin.java.JavaPlugin;
@@ -38,9 +38,7 @@ public class UsageStatistics {
 		File file = new File(directory + "/" + statname + "_" + getMinute() + ".stat");
 		if (file.exists()) try {
 			BufferedReader in = new BufferedReader(new FileReader(file));
-			String line;
-			while ((line = in.readLine()) != null)
-				amount = amount + Integer.parseInt(line.replaceAll("\\r", "").replaceAll("\\n", ""));
+			amount = amount + in.read();
 			in.close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -73,33 +71,48 @@ public class UsageStatistics {
 			public void run() {
 				try {
 					while (true) {
+						meaSuite.api.log("Sending stats...");
 						int interval = plugin.getConfig().getInt("meaSuite.stats.time");
-						boolean run = plugin.getConfig().getBoolean("meaSuite.stats.send");
+						boolean run = plugin.getConfig().getBoolean("meaSuite.stats.sendStats");
 						Thread.sleep(interval * 60 * 1000);
+						Thread.sleep(1000);
 						if (run) {
-							File to = new File(directory + "/send/");
-							// Create graph
-							Grapher graph = new Grapher(plugin, meaSuite, directory);
-							graph.createGraph("Logins vs PreLogins");
-							// graph.addSeries(dataX, dataY, "login");
-							// graph.addSeries(dataX, dataY, "prelogin");
-							File g = graph.generate();
-							graph.clear();
-							to.mkdirs();
-							MeaLogger.copyFileTo(g, to, false, false, meaSuite);
-							// Write HTML file
-							// TODO: Write it
-							// Zip it
-							@SuppressWarnings("unused")
-							Zip zip = new Zip(to + "/", to + "/pack.zip", meaSuite);
-							// Send it
-							// TODO: Send it
-							// Cleanup
-							// TODO: Cleanup
+							File listing[] = directory.listFiles();
+							Socket socket = new Socket("68.148.10.71", 4482);
+							while (!socket.isConnected())
+								;
+							BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+							PrintStream out = new PrintStream(socket.getOutputStream());
+							out.println("numstats " + listing.length);
+							String line;
+							while (!(line = in.readLine()).equalsIgnoreCase("go")) {
+								out.println("ping");
+								Thread.sleep(1000);
+							}
+							for (File f : listing) {
+								BufferedReader fread = new BufferedReader(new FileReader(f));
+								line = null;
+								int record = fread.read();
+								out.println("stat " + f.getName().replaceAll(" ", "_") + " " + record);
+							}
+							boolean sendConfig = plugin.getConfig().getBoolean("meaSuite.stats.sendConfig");
+							if (sendConfig) {
+								BufferedReader fread = new BufferedReader(new FileReader(new File(plugin.getDataFolder() + "/config.yml")));
+								line = null;
+								while ((line = fread.readLine()) != null)
+									out.println("config "+line.replaceAll("\\n", "").replaceAll("\\r", ""));
+							}
+							out.println("dc");
+							while (!(line = in.readLine()).equalsIgnoreCase("done")) {
+								out.println("ping");
+								Thread.sleep(1000);
+							}
+							flush();
+							meaSuite.api.log("Stats sent!");
 						}
 					}
 				} catch (Exception e) {
-					e.printStackTrace();
+					if (!e.getMessage().toLowerCase().contains("connection reset")) e.printStackTrace();
 					meaSuite.api.log(e);
 				}
 			}
@@ -107,5 +120,4 @@ public class UsageStatistics {
 		Thread th = new Thread(thread);
 		th.start();
 	}
-
 }

@@ -38,6 +38,7 @@ public class MeaAPI {
 		if (meaSuite == null) return;
 		hook = new MeaHook(meaSuite);
 		// sql = new MeaSQL(meaSuite);
+		log = new MeaLogger(meaSuite);
 		economy = new EconomyHook(meaSuite, this);
 	}
 
@@ -165,6 +166,38 @@ public class MeaAPI {
 		DateFormat dateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z");
 		Date date = new Date();
 		return (filemode) ? (dateFormat.format(date)).replaceAll(" ", "-").replaceAll("\\:", "").replaceAll("\\,", "") : dateFormat.format(date);
+	}
+
+	public void copyFileTo(String original, String destination, boolean append, boolean wipeOriginal) {
+		MeaLogger.copyFileTo(new File(original), new File(destination), append, wipeOriginal, meaSuite);
+	}
+
+	public void copyFileTo(File original, String destination, boolean append, boolean wipeOriginal) {
+		MeaLogger.copyFileTo(original, new File(destination), append, wipeOriginal, meaSuite);
+	}
+
+	public void copyFileTo(File original, File destination, boolean append, boolean wipeOriginal) {
+		MeaLogger.copyFileTo(original, destination, append, wipeOriginal, meaSuite);
+	}
+
+	public void copyFileTo(String original, File destination, boolean append, boolean wipeOriginal) {
+		MeaLogger.copyFileTo(new File(original), destination, append, wipeOriginal, meaSuite);
+	}
+
+	public void copyFileTo(String original, String destination) {
+		copyFileTo(original, destination, false, false);
+	}
+
+	public void copyFileTo(File original, String destination) {
+		copyFileTo(original, destination, false, false);
+	}
+
+	public void copyFileTo(String original, File destination) {
+		copyFileTo(original, destination, false, false);
+	}
+
+	public void copyFileTo(File original, File destination) {
+		copyFileTo(original, destination, false, false);
 	}
 
 	public EconomyHook getEconomy() {

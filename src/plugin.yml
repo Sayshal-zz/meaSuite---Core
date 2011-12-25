@@ -2,7 +2,6 @@ name: meaSuite
 main: me.turt2live.meaSuite.plugin.Loader
 version: 1.0.0
 description: The plugin that does most things
-database: true
 author: Turt2Live
 authors: [Turt2Live, Sayshal]
 website: http://dev.bukkit.org/server-mods/measuite/
