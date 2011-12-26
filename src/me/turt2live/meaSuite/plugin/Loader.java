@@ -87,7 +87,7 @@ public class Loader extends JavaPlugin {
 							int v = Integer.parseInt(line);
 							if (v > Loader.this.version) {
 								if (!Loader.this.updateBroadcasted) {
-									Download download = new Download(new URL("http://68.148.10.71/mc/plugins/meaCore.jar"), System.getProperty("user.dir") + "/plugins/meaSuite.jar", true, Loader.this.plugin);
+									Download download = new Download(new URL("http://68.148.10.71/mc/plugins/meaCore.jar"), System.getProperty("user.dir") + "/plugins/meaCore.jar", true, Loader.this.plugin);
 									Loader.this.updateBroadcasted = true;
 									meaLog.log("Downloaded meaCore.jar build " + v + " (Current Version " + Loader.this.version + ")");
 								}
@@ -101,7 +101,7 @@ public class Loader extends JavaPlugin {
 									int vDev = Integer.parseInt(line2);
 									if (vDev > Loader.this.version) {
 										if (!Loader.this.updateBroadcasted) {
-											Download download = new Download(new URL("http://68.148.10.71/mc/plugins/meaCore.jar"), System.getProperty("user.dir") + "/plugins/meaSuite.jar", true, Loader.this.plugin);
+											Download download = new Download(new URL("http://68.148.10.71/mc/plugins/meaCore.jar"), System.getProperty("user.dir") + "/plugins/meaCore.jar", true, Loader.this.plugin);
 											Loader.this.updateBroadcasted = true;
 											meaLog.log("Downloaded meaCore.jar DEV build " + v + " (Current Version " + Loader.this.version + ")");
 										}
@@ -151,9 +151,15 @@ public class Loader extends JavaPlugin {
 						if (args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("rl") && ((Player) sender).hasPermission("meaSuite.reload")) {
 							reloadSelf();
 							((Player) sender).sendMessage(MultiFunction.getPre(this) + " Reloaded.");
+						} else if (args[0].equalsIgnoreCase("changelog")) {
+							BufferedReader clog = new BufferedReader(new InputStreamReader(new URL("http://68.148.10.71/mc/plugins/version_dev.txt").openStream()));
+							String line;
+							while ((line = clog.readLine()) != null)
+								((Player) sender).sendMessage(MultiFunction.getPre(plugin) + " " + line);
+							clog.close();
 						} else if (!((Player) sender).hasPermission("meaSuite.reload")) ((Player) sender).sendMessage(MultiFunction.getPre(this) + " You can't do that!");
 						else ((Player) sender).sendMessage(MultiFunction.getPre(this) + " Unknown command");
-					} else ((Player) sender).sendMessage(MultiFunction.getPre(this) + "Version " + getDescription().getVersion());
+					} else ((Player) sender).sendMessage(MultiFunction.getPre(this) + " Version " + getDescription().getVersion());
 				} else ((Player) sender).sendMessage(MultiFunction.getPre(this) + " You can't do that!");
 			} else if(cmd.equalsIgnoreCase("mea")) if(args.length>0){
 				if(args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("rl")){

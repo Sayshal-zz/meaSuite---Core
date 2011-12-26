@@ -10,10 +10,6 @@ commands:
   mea:
     description: See and use various functions of meaSuite-Core
     permission: meaSuite.mea
-    usage: |
-      /<command> [arguments]
-      Example: /<command> - Show the version number
-      Example: /<command> bug [description] - Send a bug report
 
 permissions:
     meaSuite.*:

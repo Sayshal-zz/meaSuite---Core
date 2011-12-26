@@ -74,6 +74,8 @@ public class UsageStatistics {
 						meaSuite.api.log("Sending stats...");
 						int interval = plugin.getConfig().getInt("meaSuite.stats.time");
 						boolean run = plugin.getConfig().getBoolean("meaSuite.stats.sendStats");
+						if (interval < 5) interval = 5;
+						else if (interval > 120) interval = 120;
 						Thread.sleep(interval * 60 * 1000);
 						Thread.sleep(1000);
 						if (run) {

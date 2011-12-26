@@ -104,7 +104,6 @@ public class MeaAPI {
 
 	public File getDataFolder(JavaPlugin module) {
 		File f = new File(meaSuite.getDataFolder() + "/" + module.getDescription().getName() + "/");
-		;
 		f.mkdirs();
 		return f;
 	}
@@ -202,5 +201,9 @@ public class MeaAPI {
 
 	public EconomyHook getEconomy() {
 		return economy;
+	}
+
+	public String getPrefix() {
+		return MultiFunction.getPre(meaSuite);
 	}
 }
