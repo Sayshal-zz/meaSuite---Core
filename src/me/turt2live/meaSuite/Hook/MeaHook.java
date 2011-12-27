@@ -2,17 +2,17 @@ package me.turt2live.meaSuite.Hook;
 
 import java.io.File;
 
+import me.turt2live.meaSuite.Logger.MeaLogger;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
-
-import me.turt2live.meaSuite.Logger.MeaLogger;
 
 public class MeaHook {
 
 	// Config crap
-	private JavaPlugin			plugin;
+	private Plugin			plugin;
 
 	// Plugins
 	protected boolean			Factions	= false;
@@ -26,7 +26,7 @@ public class MeaHook {
 	protected mcMMOHook			mcMMO_hook;
 	protected mChatSuiteHook	mChatSuite_hook;
 
-	public MeaHook(JavaPlugin plugin) {
+	public MeaHook(Plugin plugin) {
 		this.plugin = plugin;
 	}
 

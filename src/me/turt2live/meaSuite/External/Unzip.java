@@ -10,9 +10,9 @@ import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import org.bukkit.plugin.java.JavaPlugin;
-
 import me.turt2live.meaSuite.Logger.MeaLogger;
+
+import org.bukkit.plugin.Plugin;
 
 public class Unzip {
 
@@ -28,7 +28,7 @@ public class Unzip {
 		out.close();
 	}
 
-	public Unzip(String arg0, String path, JavaPlugin plugin) {
+	public Unzip(String arg0, String path, Plugin plugin) {
 		@SuppressWarnings("rawtypes")
 		Enumeration entries;
 		ZipFile zipFile;

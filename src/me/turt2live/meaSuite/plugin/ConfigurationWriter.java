@@ -3,13 +3,13 @@ package me.turt2live.meaSuite.plugin;
 import java.io.File;
 import java.io.IOException;
 
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 
 public class ConfigurationWriter {
 
-	private JavaPlugin	plugin;
+	private Plugin	plugin;
 
-	public ConfigurationWriter(JavaPlugin plugin) {
+	public ConfigurationWriter(Plugin plugin) {
 		this.plugin = plugin;
 	}
 
@@ -21,7 +21,7 @@ public class ConfigurationWriter {
 			if (!f2.exists()) {
 				f2.createNewFile();
 				this.plugin.getConfig().set("meaSuite.downloadDevVersions", "false");
-				this.plugin.getConfig().set("meaSuite.prename", "meaSuite");
+				this.plugin.getConfig().set("meaSuite.prename", "[meaSuite]");
 				this.plugin.getConfig().set("meaSuite.colorVariable", "&");
 				this.plugin.getConfig().set("meaSuite.stats.sendStats", true);
 				this.plugin.getConfig().set("meaSuite.stats.sendConfig", false);
@@ -46,8 +46,6 @@ public class ConfigurationWriter {
 				this.plugin.saveConfig();
 			}
 			File dir = new File(this.plugin.getDataFolder() + "/temp");
-			dir.mkdirs();
-			dir = new File(this.plugin.getDataFolder() + "/stats");
 			dir.mkdirs();
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -10,15 +10,15 @@ import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 
 public class ServerPlayerListener extends PlayerListener {
 
 	@SuppressWarnings("unused")
-	private JavaPlugin	plugin;
+	private Plugin	plugin;
 	private UsageStatistics	stats;
 
-	public ServerPlayerListener(JavaPlugin loader, UsageStatistics s) {
+	public ServerPlayerListener(Plugin loader, UsageStatistics s) {
 		this.plugin = loader;
 		this.stats = s;
 	}

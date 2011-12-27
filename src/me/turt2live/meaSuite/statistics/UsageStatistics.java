@@ -14,15 +14,15 @@ import java.util.GregorianCalendar;
 
 import me.turt2live.meaSuite.plugin.Loader;
 
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 
 public class UsageStatistics {
 
-	private JavaPlugin	plugin;
+	private Plugin	plugin;
 	private Loader		meaSuite;
 	private File		directory;
 
-	public UsageStatistics(JavaPlugin p, Loader l) {
+	public UsageStatistics(Plugin p, Loader l) {
 		this.plugin = p;
 		this.meaSuite = l;
 		directory = new File(plugin.getDataFolder() + "/temp/stats");

@@ -11,9 +11,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
-import org.bukkit.plugin.java.JavaPlugin;
-
 import me.turt2live.meaSuite.API.MeaAPI;
+
+import org.bukkit.plugin.Plugin;
 
 public class Download {
 	public static double	downloadSize		= 0;
@@ -47,7 +47,7 @@ public class Download {
 		return retValue;
 	}
 
-	public Download(URL url, String filename, boolean println, JavaPlugin plugin) throws Exception {
+	public Download(URL url, String filename, boolean println, Plugin plugin) throws Exception {
 		URLConnection con;
 		DataInputStream dis;
 		FileOutputStream fos;

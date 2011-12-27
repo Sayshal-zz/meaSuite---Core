@@ -18,11 +18,11 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 
 public class MeaLogger {
 
-	private JavaPlugin		plugin;
+	private Plugin				plugin;
 	@SuppressWarnings("unused")
 	private Loader			loader;
 
@@ -37,13 +37,13 @@ public class MeaLogger {
 
 	// private String meaSuite;
 
-	public MeaLogger(JavaPlugin plugin, Loader loader) {
+	public MeaLogger(Plugin plugin, Loader loader) {
 		this.plugin = plugin;
 		this.loader = loader;
 		startup();
 	}
 
-	public MeaLogger(JavaPlugin plugin) {
+	public MeaLogger(Plugin plugin) {
 		this.plugin = plugin;
 		startup();
 	}
@@ -82,7 +82,7 @@ public class MeaLogger {
 		}
 	}
 
-	public static void log(String line, File logfile, JavaPlugin plugin) {
+	public static void log(String line, File logfile, Plugin plugin) {
 		try {
 			if (!logfile.exists()) logfile.createNewFile();
 			BufferedWriter out = new BufferedWriter(new FileWriter(logfile, true));
@@ -106,7 +106,7 @@ public class MeaLogger {
 		if (this.meaExternalLog.exists()) copyFileTo(this.meaExternalLog, new File(this.plugin.getDataFolder() + "/old_logs/externallog_rotatedOn_" + timestamp(true) + ".log"), true, true, this.plugin);
 	}
 
-	public static void copyFileTo(File original, File destination, boolean append, boolean wipeOriginal, JavaPlugin plugin) {
+	public static void copyFileTo(File original, File destination, boolean append, boolean wipeOriginal, Plugin plugin) {
 		try {
 			// System.out.println(destination.getAbsolutePath()+"/"+destination.getName());
 			if (!destination.exists()) {

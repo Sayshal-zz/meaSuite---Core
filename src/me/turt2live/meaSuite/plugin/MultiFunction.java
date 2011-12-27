@@ -1,10 +1,15 @@
 package me.turt2live.meaSuite.plugin;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Random;
+
+import me.turt2live.meaSuite.Math.Expression;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -14,10 +19,8 @@ import org.bukkit.entity.CreatureType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 import org.jibble.pircbot.Colors;
-
-import me.turt2live.meaSuite.Math.Expression;
 
 public class MultiFunction {
 
@@ -28,8 +31,11 @@ public class MultiFunction {
 		return message;
 	}
 
-	public static String addColor(String message, JavaPlugin plugin) {
+	public static String addColor(String message, Plugin plugin) {
+		plugin.reloadConfig();
 		String colorSeperator = plugin.getConfig().getString("meaSuite.colorVariable");
+		// System.out.println("******** " + plugin.getConfig().getString("meaSuite.colorVariable") + " | " + getVar("colorVariable"));
+		// System.out.println("******** " + message);
 		message = message.replaceAll(colorSeperator + "0", ChatColor.getByCode(0x0).toString());
 		message = message.replaceAll(colorSeperator + "1", ChatColor.getByCode(0x1).toString());
 		message = message.replaceAll(colorSeperator + "2", ChatColor.getByCode(0x2).toString());
@@ -55,7 +61,8 @@ public class MultiFunction {
 		return message;
 	}
 
-	public static String removeColor(String message, JavaPlugin plugin) {
+	public static String removeColor(String message, Plugin plugin) {
+		plugin.reloadConfig();
 		String colorSeperator = plugin.getConfig().getString("meaSuite.colorVariable");
 		message = message.replaceAll(colorSeperator + "0", "");
 		message = message.replaceAll(colorSeperator + "1", "");
@@ -84,7 +91,7 @@ public class MultiFunction {
 		return message;
 	}
 
-	public static String convertToIRCColors(String message, JavaPlugin plugin, boolean isInBukkitFormat) {
+	public static String convertToIRCColors(String message, Plugin plugin, boolean isInBukkitFormat) {
 		if (!isInBukkitFormat) message = MultiFunction.addColor(message, plugin);
 		message = message.replaceAll(ChatColor.getByCode(0x0).toString(), Colors.BLACK);
 		message = message.replaceAll(ChatColor.getByCode(0x1).toString(), Colors.DARK_BLUE);
@@ -126,7 +133,7 @@ public class MultiFunction {
 		return name;
 	}
 
-	public static String getPre(JavaPlugin plugin) {
+	public static String getPre(Plugin plugin) {
 		String name = addColor(plugin.getConfig().getString("meaSuite.prename"), plugin);
 		return name;
 	}
@@ -201,5 +208,30 @@ public class MultiFunction {
 		ret = new Expression(command).resolve();
 		// System.out.println(ret/1000);
 		return ret;
+	}
+
+	@Deprecated
+	public static String getVar(String node) {
+		File f = new File(System.getProperty("user.dir") + "/plugins/meaSuite/config.yml");
+		try {
+			BufferedReader in = new BufferedReader(new FileReader(f));
+			String line;
+			while ((line = in.readLine()) != null) {
+				String oline = line;
+				line = line.replaceAll(" ", "");
+				if (line.startsWith(node)) {
+					String parts[] = oline.split(":");
+					if (parts.length > 1) {
+						parts[1] = parts[1].replaceAll("\\'", "");
+						return parts[1];
+					} else return oline;
+				}
+			}
+			in.close();
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

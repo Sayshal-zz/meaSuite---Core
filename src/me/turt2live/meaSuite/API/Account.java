@@ -1,7 +1,7 @@
 package me.turt2live.meaSuite.API;
 
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 
 import com.nijikokun.register.payment.Method.MethodAccount;
 import com.nijikokun.register.payment.Methods;
@@ -10,12 +10,12 @@ public class Account {
 
 	private Player			player;
 	@SuppressWarnings("unused")
-	private JavaPlugin		meaSuite;
+	private Plugin		meaSuite;
 	private MeaAPI			api;
 
 	private MethodAccount	account;
 
-	public Account(Player player, JavaPlugin meaSuite, MeaAPI api) {
+	public Account(Player player, Plugin meaSuite, MeaAPI api) {
 		this.player = player;
 		this.api = api;
 		this.meaSuite = meaSuite;

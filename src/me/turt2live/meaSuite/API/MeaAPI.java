@@ -19,9 +19,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 
 public class MeaAPI {
+
+	public class VERSION {
+		public static final int	API		= 656;
+		public static final int	CORE	= 600;
+	}
 
 	private MeaHook		hook;
 	private MeaLogger	log;
@@ -30,12 +35,11 @@ public class MeaAPI {
 	@SuppressWarnings("unused")
 	private Unzip		unzip;
 	// private MeaSQL sql;
-	private JavaPlugin	meaSuite;
+	private Plugin		meaSuite;
 	private EconomyHook	economy;
 
 	public MeaAPI() {
-		meaSuite = (JavaPlugin) Bukkit.getServer().getPluginManager().getPlugin("meaSuite");
-		if (meaSuite == null) return;
+		meaSuite = Bukkit.getServer().getPluginManager().getPlugin("meaSuite");
 		hook = new MeaHook(meaSuite);
 		// sql = new MeaSQL(meaSuite);
 		log = new MeaLogger(meaSuite);
@@ -102,13 +106,13 @@ public class MeaAPI {
 		return line;
 	}
 
-	public File getDataFolder(JavaPlugin module) {
+	public File getDataFolder(Plugin module) {
 		File f = new File(meaSuite.getDataFolder() + "/" + module.getDescription().getName() + "/");
 		f.mkdirs();
 		return f;
 	}
 
-	public FileConfiguration getConfig(JavaPlugin module) {
+	public FileConfiguration getConfig(Plugin module) {
 		String moduleName = module.getDescription().getName();
 		File file = new File(meaSuite.getDataFolder(), (moduleName + ".yml".replaceAll(" ", "_")));
 		if (!file.exists()) try {
@@ -150,15 +154,15 @@ public class MeaAPI {
 		String error = "";
 		for (StackTraceElement line : stack)
 			error = error + line.toString() + "\r\n";
-		log.log(error);
+		if (error != null) log.log(error);
 	}
 
 	public void log(String line) {
-		log.log(line);
+		if (line != null) log.log(line);
 	}
 
 	public void log(String line, File file) {
-		MeaLogger.log(line, file, meaSuite);
+		if (line != null) MeaLogger.log(line, file, meaSuite);
 	}
 
 	public static String timestamp(boolean filemode) {

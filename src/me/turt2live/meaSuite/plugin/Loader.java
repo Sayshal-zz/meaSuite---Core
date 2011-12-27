@@ -9,6 +9,7 @@ import java.net.URL;
 import java.util.logging.Logger;
 
 import me.turt2live.meaSuite.API.MeaAPI;
+import me.turt2live.meaSuite.API.MeaAPI.VERSION;
 import me.turt2live.meaSuite.External.Download;
 import me.turt2live.meaSuite.Logger.MeaLogger;
 import me.turt2live.meaSuite.statistics.UsageStatistics;
@@ -22,16 +23,17 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Loader extends JavaPlugin {
 
-	public JavaPlugin			plugin				= this;
+	public Plugin			plugin				= this;
 	public final Logger			logger				= Logger.getLogger("Minecraft");
 	public ServerPlayerListener	playerListener;
 	public ServerBlockListener	blockListener;
-	public int					version				= 600;
+	public int					version				= 0;
 	private boolean				updateBroadcasted	= false;
 	private MeaLogger			meaLog;
 	private UsageStatistics		stats;
@@ -48,6 +50,7 @@ public class Loader extends JavaPlugin {
 		meaLog = new MeaLogger(this, this);
 		meaLog.log("[" + this.plugin.getDescription().getFullName() + "] Loading!");
 		api = new MeaAPI();
+		version = VERSION.CORE;
 		stats = new UsageStatistics(this, this);
 		meaLog.log("Flushing Usage Statistics...");
 		stats.flush();

@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
 
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
@@ -16,9 +16,9 @@ import com.mysql.jdbc.Statement;
 @Deprecated
 public class MeaSQL {
 
-	private JavaPlugin	plugin;
+	private Plugin	plugin;
 
-	public MeaSQL(JavaPlugin plugin) {
+	public MeaSQL(Plugin plugin) {
 		this.plugin = plugin;
 	}
 
