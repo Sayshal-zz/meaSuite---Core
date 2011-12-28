@@ -119,7 +119,9 @@ public class UsageStatistics {
 				}
 			}
 		};
+		@SuppressWarnings("unused")
 		Thread th = new Thread(thread);
-		th.start();
+		// th.start();
+		// REMOVED DUE TO NOT LONGER NEEDED
 	}
 }

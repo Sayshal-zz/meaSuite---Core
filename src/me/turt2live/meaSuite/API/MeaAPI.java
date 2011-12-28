@@ -24,8 +24,8 @@ import org.bukkit.plugin.Plugin;
 public class MeaAPI {
 
 	public class VERSION {
-		public static final int	API		= 656;
-		public static final int	CORE	= 600;
+		public static final int	API		= 658;
+		public static final int	CORE	= 605;
 	}
 
 	private MeaHook		hook;

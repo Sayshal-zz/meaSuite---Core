@@ -1,6 +1,6 @@
 name: meaSuite
 main: me.turt2live.meaSuite.plugin.Loader
-version: 1.0.2
+version: 1.0.3
 description: The plugin that does most things
 author: Turt2Live
 authors: [Turt2Live, Sayshal]

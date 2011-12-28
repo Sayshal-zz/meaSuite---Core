@@ -13,9 +13,11 @@ public class EconomyHook {
 	public EconomyHook(Plugin plugin, MeaAPI api) {
 		meaSuite = plugin;
 		this.api = api;
+		Methods.getMethod();
 	}
 
 	public boolean isLoaded() {
+		Methods.getMethod();
 		return Methods.hasMethod();
 	}
 
