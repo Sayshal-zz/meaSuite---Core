@@ -129,7 +129,8 @@ public class Loader extends JavaPlugin {
 			}
 		};
 		Thread updateThread = new Thread(update);
-		updateThread.start();
+		// updateThread.start();
+		// DEPRECATED UNTIL FURTHER NOTICE
 		long end = System.currentTimeMillis();
 		double time = (end - start) / 1000;
 		System.out.println("[" + this.plugin.getDescription().getFullName() + "] Loaded in " + time + "s!");
