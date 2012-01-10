@@ -10,12 +10,10 @@ import java.util.logging.Logger;
 
 import me.turt2live.meaSuite.API.MeaAPI;
 import me.turt2live.meaSuite.API.MeaAPI.VERSION;
-import me.turt2live.meaSuite.External.Download;
 import me.turt2live.meaSuite.Logger.MeaLogger;
 import me.turt2live.meaSuite.statistics.UsageStatistics;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -34,13 +32,11 @@ public class Loader extends JavaPlugin {
 	public ServerPlayerListener	playerListener;
 	public ServerBlockListener	blockListener;
 	public int					version				= 0;
-	private boolean				updateBroadcasted	= false;
 	private MeaLogger			meaLog;
 	private UsageStatistics		stats;
 
 	public MeaAPI				api;
 
-	@SuppressWarnings("unused")
 	@Override
 	public void onEnable() {
 		long start = System.currentTimeMillis();
@@ -76,61 +72,7 @@ public class Loader extends JavaPlugin {
 		};
 		Thread eventsThread = new Thread(events);
 		eventsThread.start();
-		// Update check
-		Runnable update = new Runnable() {
-			@Override
-			public void run() {
-				while (true) {
-					try {
-						boolean isDev = false;
-						if (getNode("meaSuite.downloadDevVersions").equalsIgnoreCase("true")) isDev = true;
-						BufferedReader in = new BufferedReader(new InputStreamReader(new URL("http://68.148.10.71/mc/plugins/version.txt").openStream()));
-						String line;
-						while ((line = in.readLine()) != null) {
-							int v = Integer.parseInt(line);
-							if (v > Loader.this.version) {
-								if (!Loader.this.updateBroadcasted) {
-									Download download = new Download(new URL("http://68.148.10.71/mc/plugins/meaCore.jar"), System.getProperty("user.dir") + "/plugins/meaCore.jar", true, Loader.this.plugin);
-									Loader.this.updateBroadcasted = true;
-									meaLog.log("Downloaded meaCore.jar build " + v + " (Current Version " + Loader.this.version + ")");
-								}
-								meaLog.log("** meaSuite build " + v + " available (Current Build: " + Loader.this.version + ")! Restart server to use it. (For changes type: /mea changelog)");
-								System.err.println("** meaSuite build " + v + " available (Current Build: " + Loader.this.version + ")! Restart server to use it. (For changes type: /mea changelog)");
-								Bukkit.getServer().broadcastMessage(ChatColor.DARK_GREEN + "** meaSuite build " + v + " available (Current Build: " + Loader.this.version + ")! Restart server to use it.");
-							} else if (isDev) {
-								BufferedReader dev = new BufferedReader(new InputStreamReader(new URL("http://68.148.10.71/mc/plugins/version_dev.txt").openStream()));
-								String line2;
-								while ((line2 = dev.readLine()) != null) {
-									int vDev = Integer.parseInt(line2);
-									if (vDev > Loader.this.version) {
-										if (!Loader.this.updateBroadcasted) {
-											Download download = new Download(new URL("http://68.148.10.71/mc/plugins/meaCore.jar"), System.getProperty("user.dir") + "/plugins/meaCore.jar", true, Loader.this.plugin);
-											Loader.this.updateBroadcasted = true;
-											meaLog.log("Downloaded meaCore.jar DEV build " + v + " (Current Version " + Loader.this.version + ")");
-										}
-										meaLog.log("** meaSuite DEV build " + v + " available (Current Build: " + Loader.this.version + ")! Restart server to use it. (For changes type: /mea changelog)");
-										System.err.println("** meaSuite DEV build " + v + " available (Current Build: " + Loader.this.version + ")! Restart server to use it. (For changes type: /mea changelog)");
-										Bukkit.getServer().broadcastMessage(ChatColor.DARK_GREEN + "** meaSuite DEV build " + v + " available (Current Build: " + Loader.this.version + ")! Restart server to use it.");
-									}
-								}
-								dev.close();
-							}
-						}
-						in.close();
-					} catch (Exception e) {
-						e.printStackTrace();
-						meaLog.log(e.getMessage());
-					}
-					try {
-						if (!Loader.this.updateBroadcasted) Thread.sleep(1000);
-						else Thread.sleep(30000);
-					} catch (Exception e) {}
-				}
-			}
-		};
-		Thread updateThread = new Thread(update);
-		// updateThread.start();
-		// DEPRECATED UNTIL FURTHER NOTICE
+		// TODO: Update Check
 		long end = System.currentTimeMillis();
 		double time = (end - start) / 1000;
 		System.out.println("[" + this.plugin.getDescription().getFullName() + "] Loaded in " + time + "s!");

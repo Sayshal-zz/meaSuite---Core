@@ -25,7 +25,7 @@ public class MeaAPI {
 
 	public class VERSION {
 		public static final int	API		= 658;
-		public static final int	CORE	= 605;
+		public static final int	CORE	= 606;
 	}
 
 	private MeaHook		hook;
